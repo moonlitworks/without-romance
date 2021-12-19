@@ -9,5 +9,4 @@ python-packages/
 *.rpya
 *.rpyb
 *.rpyc
-*.rpym
 *.rpymc
