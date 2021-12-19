@@ -1,0 +1,13 @@
+log.txt
+errors.txt
+traceback.txt
+project.json
+cache/
+saves/
+python-packages/
+*.rpy.bak
+*.rpya
+*.rpyb
+*.rpyc
+*.rpym
+*.rpymc
