@@ -20,8 +20,8 @@ jobs:
           fetch-depth: 0
       - name: Build RenPy
         id: renpy_build
-        uses: eyzi/renpy-build-action@master
-        timeout-minutes: 10
+        uses: ProjectAliceDev/renpy-build-action@master
+        timeout-minutes: 5
         with:
           sdk-version: "7.4.11"
           package: market
