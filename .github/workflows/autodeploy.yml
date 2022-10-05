@@ -55,7 +55,7 @@ jobs:
           totp: ${{ steps.steam-totp.outputs.code }}
           appId: ${{ secrets.STEAM_APP_ID }}
           buildDescription: v${{ needs.build.outputs.build_semver }}
-          depot1Path: ${{ needs.build.outputs.build_dir }}/${{ needs.build.outputs.build_name }}
+          depot1Path: ${{ needs.build.outputs.build_dir }}/${{ needs.build.outputs.build_name }}-market
           releaseBranch: beta
 
   # deploy-itch:
