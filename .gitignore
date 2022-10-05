@@ -4,7 +4,7 @@ traceback.txt
 project.json
 cache/
 saves/
-python-packages/
+*.pyc
 *.rpy.bak
 *.rpya
 *.rpyb
