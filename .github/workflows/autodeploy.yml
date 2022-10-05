@@ -52,11 +52,10 @@ jobs:
         with:
           username: ${{ secrets.STEAM_USERNAME }}
           password: ${{ secrets.STEAM_PASSWORD }}
-          totp: ${{ steps.steam-totp.code }}
+          totp: ${{ steps.steam-totp.outputs.code }}
           appId: ${{ secrets.STEAM_APP_ID }}
           buildDescription: v${{ needs.build.outputs.build_semver }}
-          rootPath: ${{ needs.build.outputs.build_dir }}
-          depot1Path: ${{ needs.build.outputs.build_name }}
+          depot1Path: ${{ needs.build.outputs.build_dir }}/${{ needs.build.outputs.build_name }}
           releaseBranch: beta
 
   # deploy-itch:
