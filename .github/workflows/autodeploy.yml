@@ -52,7 +52,7 @@ jobs:
           name: ${{ needs.build.outputs.build_name }}
           path: ~/${{ needs.build.outputs.build_name }}-market.zip
       - name: Unzip Build
-        run: unzip -qq '~/${{ needs.build.outputs.build_name }}-market.zip'
+        run: unzip -qq '/home/runner/${{ needs.build.outputs.build_name }}-market.zip'
       - uses: CyberAndrii/steam-totp@v1
         name: Generate TOTP
         id: steam-totp
@@ -89,7 +89,7 @@ jobs:
           CHANNEL: win-osx-linux
           ITCH_GAME: nomance
           ITCH_USER: moonlitworks
-          PACKAGE: ~/${{ needs.build.outputs.build_name }}-market.zip
+          PACKAGE: /home/runner/${{ needs.build.outputs.build_name }}-market.zip
           VERSION: ${{ needs.build.outputs.build_semver }}
 
   release-github:
@@ -123,7 +123,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ~/${{ needs.build.outputs.build_name }}-market.zip
+          asset_path: /home/runner/${{ needs.build.outputs.build_name }}-market.zip
           asset_name: ${{ needs.build.outputs.build_name }}-market.zip
           asset_content_type: application/zip
   
