@@ -32,9 +32,7 @@ jobs:
         id: renpy_build_version
         run: echo ::set-output name=semver::"$(echo ${{ steps.renpy_build.outputs.version }} | sed 's/^\w*-//g')"
       - name: Unzip Build
-        run: |
-          mkdir -p ${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market
-          unzip -qq '${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip' -d '${{ steps.renpy_build.outputs.dir }}'
+        run: unzip -qq '${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip'
   
   deploy-steam:
     name: Deploy to Steam
@@ -57,7 +55,7 @@ jobs:
           totp: ${{ steps.steam-totp.outputs.code }}
           appId: ${{ secrets.STEAM_APP_ID }}
           buildDescription: v${{ needs.build.outputs.build_semver }}
-          depot1Path: ${{ needs.build.outputs.build_dir }}/${{ needs.build.outputs.build_name }}-market
+          depot1Path: ${{ needs.build.outputs.build_name }}-market
           releaseBranch: beta
 
   deploy-itch:
