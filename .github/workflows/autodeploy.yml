@@ -99,7 +99,7 @@ jobs:
     needs: [build]
     environment:
       name: Production
-      url: ${{ steps.create_release.outputs.upload_url }}
+      url: ${{ steps.create_release.outputs.html_url }}
     steps:
       - uses: actions/download-artifact@v3
         name: Retrieve build
