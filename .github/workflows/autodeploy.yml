@@ -36,8 +36,6 @@ jobs:
         with:
           name: ${{ steps.renpy_build.outputs.version }}
           path: ${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip
-      - name: Unzip Build
-        run: unzip -qq '${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip'
   
   deploy-steam:
     name: Deploy to Steam
@@ -52,9 +50,9 @@ jobs:
         name: Retrieve build
         with:
           name: ${{ needs.build.outputs.build_name }}
-          path: ${{ needs.build.outputs.build_dir }}/${{ needs.build.outputs.build_name }}-market.zip
+          path: ~/${{ needs.build.outputs.build_name }}-market.zip
       - name: Unzip Build
-        run: unzip -qq '${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip'
+        run: unzip -qq '${{ needs.build.outputs.build_name }}-market.zip'
       - uses: CyberAndrii/steam-totp@v1
         name: Generate TOTP
         id: steam-totp
@@ -83,7 +81,7 @@ jobs:
         name: Retrieve build
         with:
           name: ${{ needs.build.outputs.build_name }}
-          path: ${{ needs.build.outputs.build_dir }}/${{ needs.build.outputs.build_name }}-market.zip
+          path: ~/${{ needs.build.outputs.build_name }}-market.zip
       - uses: josephbmanley/butler-publish-itchio-action@master
         name: Upload to Itch
         env:
@@ -91,7 +89,7 @@ jobs:
           CHANNEL: win-osx-linux
           ITCH_GAME: nomance
           ITCH_USER: moonlitworks
-          PACKAGE: ${{ needs.build.outputs.build_dir }}/${{ needs.build.outputs.build_name }}-market.zip
+          PACKAGE: ${{ needs.build.outputs.build_name }}-market.zip
           VERSION: ${{ needs.build.outputs.build_semver }}
 
   release-github:
@@ -107,7 +105,7 @@ jobs:
         name: Retrieve build
         with:
           name: ${{ needs.build.outputs.build_name }}
-          path: ${{ needs.build.outputs.build_dir }}/${{ needs.build.outputs.build_name }}-market.zip
+          path: ./${{ needs.build.outputs.build_name }}-market.zip
       - name: Create Github Release
         id: create_release
         uses: actions/create-release@v1
