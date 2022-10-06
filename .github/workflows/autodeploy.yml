@@ -31,6 +31,11 @@ jobs:
       - name: Get Build SemVer
         id: renpy_build_version
         run: echo ::set-output name=semver::"$(echo ${{ steps.renpy_build.outputs.version }} | sed 's/^\w*-//g')"
+      - name: Persist build
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.renpy_build.outputs.version }}
+          path: ${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip
       - name: Unzip Build
         run: unzip -qq '${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip'
   
@@ -43,6 +48,13 @@ jobs:
       name: Production
       url: https://store.steampowered.com/app/1409610/Without_Romance/
     steps:
+      - uses: actions/download-artifact@v3
+        name: Retrieve build
+        with:
+          name: ${{ needs.build.outputs.build_name }}
+          path: ${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip
+      - name: Unzip Build
+        run: unzip -qq '${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip'
       - uses: CyberAndrii/steam-totp@v1
         name: Generate TOTP
         id: steam-totp
@@ -67,6 +79,11 @@ jobs:
       name: Production
       url: https://moonlitworks.itch.io/nomance
     steps:
+      - uses: actions/download-artifact@v3
+        name: Retrieve build
+        with:
+          name: ${{ needs.build.outputs.build_name }}
+          path: ${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip
       - uses: josephbmanley/butler-publish-itchio-action@master
         name: Upload to Itch
         env:
@@ -86,6 +103,11 @@ jobs:
       name: Production
       url: ${{ steps.create_release.outputs.upload_url }}
     steps:
+      - uses: actions/download-artifact@v3
+        name: Retrieve build
+        with:
+          name: ${{ needs.build.outputs.build_name }}
+          path: ${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip
       - name: Create Github Release
         id: create_release
         uses: actions/create-release@v1
@@ -106,3 +128,14 @@ jobs:
           asset_path: ${{ needs.build.outputs.build_dir }}/${{ needs.build.outputs.build_name }}-market.zip
           asset_name: ${{ needs.build.outputs.build_name }}-market.zip
           asset_content_type: application/zip
+  
+  cleanup:
+    name: Workflow Cleanup
+    runs-on: self-hosted
+    if: ${{ always() }}
+    needs: [build, deploy-steam, deploy-itch, release-github]
+    steps:
+      - name: Delete build
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: ${{ needs.build.outputs.build_name }}
