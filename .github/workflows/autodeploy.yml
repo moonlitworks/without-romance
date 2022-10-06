@@ -32,7 +32,9 @@ jobs:
         id: renpy_build_version
         run: echo ::set-output name=semver::"$(echo ${{ steps.renpy_build.outputs.version }} | sed 's/^\w*-//g')"
       - name: Unzip Build
-        run: unzip -qq '${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip' -d '${{ steps.renpy_build.outputs.dir }}'
+        run: |
+          mkdir -p ${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market
+          unzip -qq '${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip' -d '${{ steps.renpy_build.outputs.dir }}'
   
   deploy-steam:
     name: Deploy to Steam
