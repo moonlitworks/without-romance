@@ -31,11 +31,13 @@ jobs:
       - name: Get Build SemVer
         id: renpy_build_version
         run: echo ::set-output name=semver::"$(echo ${{ steps.renpy_build.outputs.version }} | sed 's/^\w*-//g')"
+      - name: Copy build out of volume
+        run: sudo cp ${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip ~/
       - name: Persist build
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.renpy_build.outputs.version }}
-          path: ${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip
+          path: ~/${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip
   
   deploy-steam:
     name: Deploy to Steam
@@ -50,9 +52,9 @@ jobs:
         name: Retrieve build
         with:
           name: ${{ needs.build.outputs.build_name }}
-          path: ~/${{ needs.build.outputs.build_name }}-market.zip
+          path: ${{ needs.build.outputs.build_name }}-market.zip
       - name: Unzip Build
-        run: unzip -qq '/home/runner/${{ needs.build.outputs.build_name }}-market.zip'
+        run: unzip -qq '${{ needs.build.outputs.build_name }}-market.zip'
       - uses: CyberAndrii/steam-totp@v1
         name: Generate TOTP
         id: steam-totp
@@ -81,7 +83,7 @@ jobs:
         name: Retrieve build
         with:
           name: ${{ needs.build.outputs.build_name }}
-          path: ~/${{ needs.build.outputs.build_name }}-market.zip
+          path: ${{ needs.build.outputs.build_name }}-market.zip
       - uses: josephbmanley/butler-publish-itchio-action@master
         name: Upload to Itch
         env:
@@ -89,7 +91,7 @@ jobs:
           CHANNEL: win-osx-linux
           ITCH_GAME: nomance
           ITCH_USER: moonlitworks
-          PACKAGE: /home/runner/${{ needs.build.outputs.build_name }}-market.zip
+          PACKAGE: ${{ needs.build.outputs.build_name }}-market.zip
           VERSION: ${{ needs.build.outputs.build_semver }}
 
   release-github:
@@ -105,7 +107,7 @@ jobs:
         name: Retrieve build
         with:
           name: ${{ needs.build.outputs.build_name }}
-          path: ~/${{ needs.build.outputs.build_name }}-market.zip
+          path: ${{ needs.build.outputs.build_name }}-market.zip
       - name: Create Github Release
         id: create_release
         uses: actions/create-release@v1
@@ -123,7 +125,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /home/runner/${{ needs.build.outputs.build_name }}-market.zip
+          asset_path: ${{ needs.build.outputs.build_name }}-market.zip
           asset_name: ${{ needs.build.outputs.build_name }}-market.zip
           asset_content_type: application/zip
   
