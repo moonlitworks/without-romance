@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.renpy_build.outputs.version }}
-          path: ~/${{ steps.renpy_build.outputs.dir }}/${{ steps.renpy_build.outputs.version }}-market.zip
+          path: ~/${{ steps.renpy_build.outputs.version }}-market.zip
   
   deploy-steam:
     name: Deploy to Steam
