@@ -52,7 +52,7 @@ jobs:
         name: Retrieve build
         with:
           name: ${{ needs.build.outputs.build_name }}
-          path: ${{ needs.build.outputs.build_name }}-market.zip
+          path: ./
       - name: Unzip Build
         run: unzip -qq '${{ needs.build.outputs.build_name }}-market.zip'
       - uses: CyberAndrii/steam-totp@v1
@@ -83,7 +83,7 @@ jobs:
         name: Retrieve build
         with:
           name: ${{ needs.build.outputs.build_name }}
-          path: ${{ needs.build.outputs.build_name }}-market.zip
+          path: ./
       - uses: josephbmanley/butler-publish-itchio-action@master
         name: Upload to Itch
         env:
@@ -107,7 +107,7 @@ jobs:
         name: Retrieve build
         with:
           name: ${{ needs.build.outputs.build_name }}
-          path: ${{ needs.build.outputs.build_name }}-market.zip
+          path: ./
       - name: Create Github Release
         id: create_release
         uses: actions/create-release@v1
