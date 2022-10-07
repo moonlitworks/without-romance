@@ -58,7 +58,7 @@ jobs:
         id: steam-totp
         with:
           shared_secret: ${{ secrets.STEAM_SHARED_SECRET }}
-      - uses: eyzi/steam-deploy@main
+      - uses: eyzi/steam-deploy@timewarpinc
         with:
           username: ${{ secrets.STEAM_USERNAME }}
           password: ${{ secrets.STEAM_PASSWORD }}
