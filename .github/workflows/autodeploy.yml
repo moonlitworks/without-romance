@@ -59,6 +59,7 @@ jobs:
         with:
           shared_secret: ${{ secrets.STEAM_SHARED_SECRET }}
       - uses: eyzi/steam-deploy@timewarpinc
+        id: steam-deploy
         with:
           username: ${{ secrets.STEAM_USERNAME }}
           password: ${{ secrets.STEAM_PASSWORD }}
@@ -67,6 +68,7 @@ jobs:
           buildDescription: v${{ needs.build.outputs.build_semver }}
           depot1Path: ${{ needs.build.outputs.build_name }}-market
           releaseBranch: beta
+      - run: echo "${{ steps.steam-deploy.outputs.manifest }}"
 
   deploy-itch:
     name: Deploy to Itch
