@@ -1,4 +1,7 @@
 label scene0:
+  $ achievement.register("WITHOUT_ROMANCE", steam="WITHOUT_ROMANCE")
+  $ achievement.steam_position = "bottom right"
+  $ achievement.sync()
   # SCENE 0: Prologue
   "An outsider would likely not believe it."
   "I can still barely believe it myself."

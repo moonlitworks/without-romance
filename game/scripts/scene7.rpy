@@ -139,6 +139,7 @@ label scene7:
   "Only time would tell how the story of the selfish princess might unfold."
   "Of the girl who gave herself to a loveless life."
   "A future"
+  $ achievement.grant("WITHOUT_ROMANCE")
   extend " without romance."
 
   # blur before end
