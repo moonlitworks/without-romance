@@ -23,7 +23,7 @@ define gui.show_name = True
 
 # define buildForSteam = False
 # define config.version = "1.1" if buildForSteam else "1.0"
-define config.version = "1.2.28"
+define config.version = "1.1"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -189,6 +189,22 @@ init python:
 
     ## To archive files, classify them as 'archive'.
 
+    # Declare two archives.
+    build.archive("scripts", "all")
+    build.archive("images", "all")
+    build.archive("sounds", "all")
+
+    # Put script files into the scripts archive.
+    build.classify("game/**.rpy", "scripts")
+    build.classify("game/**.rpyc", "scripts")
+
+    # Put images into the images archive.
+    build.classify("game/**.jpg", "images")
+    build.classify("game/**.png", "images")
+
+    # Put images into the images archive.
+    build.classify("game/**.ogg", "sounds")
+
     # build.classify('game/**.png', 'archive')
     # build.classify('game/**.jpg', 'archive')
 
@@ -210,5 +226,6 @@ init python:
 ## by a slash.
 
 define build.itch_project = "moonlitworks/nomance"
+define config.steam_appid = 1409610
 
 define config.say_attribute_transition = Dissolve(0.2, alpha=True)
