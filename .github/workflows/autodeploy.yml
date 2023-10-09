@@ -52,12 +52,12 @@ jobs:
           name: ${{ needs.build.outputs.build_name }}
           path: ./
       - name: Unzip Build
-        run: unzip -qq '${{ needs.build.outputs.build_name }}-market.zip'
-      - uses: CyberAndrii/steam-totp@v1
-        name: Generate TOTP
-        id: steam-totp
-        with:
-          shared_secret: ${{ secrets.STEAM_SHARED_SECRET }}
+        run: unzip -qq '${{ needs.build.outputs.build_name }}-market.zip' -d '${{ needs.build.outputs.build_name }}-market'
+      # - uses: CyberAndrii/steam-totp@v1
+      #   name: Generate TOTP
+      #   id: steam-totp
+      #   with:
+      #     shared_secret: ${{ secrets.STEAM_SHARED_SECRET }}
       - uses: game-ci/steam-deploy@main
         id: steam-deploy
         with:
