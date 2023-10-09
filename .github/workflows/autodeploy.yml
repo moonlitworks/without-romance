@@ -62,7 +62,8 @@ jobs:
         id: steam-deploy
         with:
           username: ${{ secrets.STEAM_USERNAME }}
-          totp: ${{ steps.steam-totp.outputs.code }}
+          # totp: ${{ steps.steam-totp.outputs.code }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
           appId: ${{ secrets.STEAM_APP_ID }}
           buildDescription: v${{ needs.build.outputs.build_semver }}
           depot1Path: ${{ needs.build.outputs.build_name }}-market
