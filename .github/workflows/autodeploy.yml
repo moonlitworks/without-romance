@@ -53,17 +53,16 @@ jobs:
           path: ./
       - name: Unzip Build
         run: unzip -qq '${{ needs.build.outputs.build_name }}-market.zip'
-      # - uses: CyberAndrii/steam-totp@v1
-      #   name: Generate TOTP
-      #   id: steam-totp
-      #   with:
-      #     shared_secret: ${{ secrets.STEAM_SHARED_SECRET }}
+      - uses: CyberAndrii/steam-totp@v1
+        name: Generate TOTP
+        id: steam-totp
+        with:
+          shared_secret: ${{ secrets.STEAM_SHARED_SECRET }}
       - uses: game-ci/steam-deploy@main
         id: steam-deploy
         with:
           username: ${{ secrets.STEAM_USERNAME }}
-          password: ${{ secrets.STEAM_PASSWORD }}
-          # totp: ${{ steps.steam-totp.outputs.code }}
+          totp: ${{ steps.steam-totp.outputs.code }}
           appId: ${{ secrets.STEAM_APP_ID }}
           buildDescription: v${{ needs.build.outputs.build_semver }}
           depot1Path: ${{ needs.build.outputs.build_name }}-market
