@@ -25,7 +25,7 @@ jobs:
         with:
           sdk-version: "8.1.1"
           package: market
-          # add-steam-lib: true
+          add-steam-lib: true
         env:
           SDL_AUDIODRIVER: dummy
           SDL_VIDEODRIVER: dummy
