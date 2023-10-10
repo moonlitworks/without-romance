@@ -23,7 +23,7 @@ define gui.show_name = True
 
 # define buildForSteam = False
 # define config.version = "1.1" if buildForSteam else "1.0"
-define config.version = "1.2.35"
+define config.version = "1.2.36"
 
 
 ## Text that is placed on the game's about screen. Place the text between the

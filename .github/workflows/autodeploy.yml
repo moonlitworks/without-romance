@@ -20,11 +20,12 @@ jobs:
           fetch-depth: 0
       - name: Build RenPy
         id: renpy_build
-        uses: ProjectAliceDev/renpy-build-action@master
+        uses: eyzi/renpy-build-action@master
         timeout-minutes: 5
         with:
           sdk-version: "8.1.1"
           package: market
+          add-steam-lib: true
         env:
           SDL_AUDIODRIVER: dummy
           SDL_VIDEODRIVER: dummy
